@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Dalamud.NET.Sdk/15.0.0">
+  <PropertyGroup>
+    <Version>0.1.0.0</Version>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Author>jdsan93</Author>
+    <Name>Materia Transmuter</Name>
+    <Punchline>Bulk-transmute unwanted materia at Mutamix until you get the type you want.</Punchline>
+    <Description>Automates Mutamix Bubblypots materia transmutation from your player inventory. Choose a target type and grade, blacklist materia you want to keep, and keep rolling until you hit your count or run out of fodder. Uses only your bags — never retainers or the chocobo saddlebag.</Description>
+    <RepoUrl>https://github.com/jdsan93/MateriaTransmuter</RepoUrl>
+    <Tags>materia;transmute;mutamix;inventory</Tags>
+  </PropertyGroup>
+</Project>

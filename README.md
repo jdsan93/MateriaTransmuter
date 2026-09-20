@@ -1,78 +1,53 @@
-> ⚠️ **Don't click Fork!**
-> 
-> This is a GitHub Template repo. If you want to use this for a plugin, [use this template][new-repo] to make a new repo!
->
-> ![image](https://github.com/goatcorp/SamplePlugin/assets/16760685/d9732094-e1ed-4769-a70b-58ed2b92580c)
+# Materia Transmuter
 
-# SamplePlugin
+A Dalamud plugin that bulk-transmutes unwanted materia at Mutamix Bubblypots until you get the type and grade you want.
 
-[![Use This Template badge](https://img.shields.io/badge/Use%20This%20Template-0?logo=github&labelColor=grey)][new-repo]
+## What it does
 
+Mutamix in Central Thanalan (X:23.7, Y:13.6) takes **5 materia** and returns **1 random materia**. The result is never one of the types you submitted, and its grade matches one of the grades you put in (upgrades are ignored for targeting).
 
-Simple example plugin for Dalamud.
+This plugin:
 
-This is not designed to be the simplest possible example, but it is also not designed to cover everything you might want to do. For more detailed questions, come ask in [the Discord](https://discord.gg/holdshift).
+- Lets you pick the **type** and **grade** you want, plus **how many** to make
+- Lets you **blacklist** type/grade pairs you do not want to spend
+- Uses **only your four inventory bags** (never retainers or the chocobo saddlebag)
+- Only spends materia of the **same grade** as the target
+- Never spends the target type itself
+- Prefers **as many different types as possible** in each set of 5, which raises the odds of rolling the type you want
+- Keeps rolling until it hits your count or runs out of eligible fodder
 
-## Main Points
+## Requirements
 
-* Simple functional plugin
-  * Slash command
-  * Main UI
-  * Settings UI
-  * Image loading
-  * Plugin json
-* Simple, slightly-improved plugin configuration handling
-* Project organization
-  * Copies all necessary plugin files to the output directory
-    * Does not copy dependencies that are provided by dalamud
-    * Output directory can be zipped directly and have exactly what is required
-  * Hides data files from visual studio to reduce clutter
-    * Also allows having data files in different paths than VS would usually allow if done in the IDE directly
+- XIVLauncher + Dalamud, with the game launched at least once
+- .NET 10 SDK (or Visual Studio / Rider, which will fetch it)
+- The `Marvelously Mutable Materia` quest completed so Mutamix will transmute for you
 
+## Building
 
-The intention is less that any of this is used directly in other projects, and more to show how similar things can be done.
+1. Open `MateriaTransmuter.slnx` in Visual Studio or Rider, or run `dotnet build` from this folder.
+2. The plugin DLL is written to `MateriaTransmuter/bin/x64/Debug/MateriaTransmuter.dll` (or `Release`).
 
-## How To Use
+If Dalamud is not in the default XIVLauncher path, set `DALAMUD_HOME` to your Dalamud `dev` hooks directory.
 
-### Getting Started
+## Loading in-game
 
-To begin, [clone this template repository][new-repo] to your own GitHub account. This will automatically bring in everything you need to get a jumpstart on development. You do not need to fork this repository unless you intend to contribute modifications to it.
+1. `/xlsettings` → **Experimental** → add the full path to `MateriaTransmuter.dll` under Dev Plugin Locations.
+2. `/xlplugins` → **Dev Tools > Installed Dev Plugins** → enable **Materia Transmuter**.
+3. `/mt` (or `/transmute`) opens the window.
 
-Be sure to also check out the [Dalamud Developer Docs][dalamud-docs] for helpful information about building your own plugin. The Developer Docs includes helpful information about all sorts of things, including [how to submit][submit] your newly-created plugin to the official repository. Assuming you use this template repository, the provided project build configuration and license are already chosen to make everything a breeze.
+## Using it
 
-[new-repo]: https://github.com/new?template_name=SamplePlugin&template_owner=goatcorp
-[dalamud-docs]: https://dalamud.dev
-[submit]: https://dalamud.dev/plugin-publishing/submission
+1. Put the materia you are willing to spend in your **player bags**.
+2. Choose the desired type and grade, how many you want to make, and any keep-list entries.
+3. Talk to Mutamix and open the transmutation window.
+4. Click **Start transmuting**.
 
-### Prerequisites
+The plugin fills five slots, confirms, waits for the result, and repeats. Stop at any time with **Stop**.
 
-SamplePlugin assumes all the following prerequisites are met:
+If the transmutation window is not detected, open it, then use **Settings → Log visible addons** and check `/xllog`. Enable debug logging there if you need more detail.
 
-* XIVLauncher, FINAL FANTASY XIV, and Dalamud have all been installed and the game has been run with Dalamud at least once.
-* XIVLauncher is installed to its default directories and configurations.
-  * If a custom path is required for Dalamud's dev directory, it must be set with the `DALAMUD_HOME` environment variable.
-* A .NET Core 8 SDK has been installed and configured, or is otherwise available. (In most cases, the IDE will take care of this.)
+## Notes
 
-### Building
-
-1. Open up `SamplePlugin.sln` in your C# editor of choice (likely [Visual Studio](https://visualstudio.microsoft.com) or [JetBrains Rider](https://www.jetbrains.com/rider/)).
-2. Build the solution. By default, this will build a `Debug` build, but you can switch to `Release` in your IDE.
-3. The resulting plugin can be found at `SamplePlugin/bin/x64/Debug/SamplePlugin.dll` (or `Release` if appropriate.)
-
-### Activating in-game
-
-1. Launch the game and use `/xlsettings` in chat or `xlsettings` in the Dalamud Console to open up the Dalamud settings.
-    * In here, go to `Experimental`, and add the full path to the `SamplePlugin.dll` to the list of Dev Plugin Locations.
-2. Next, use `/xlplugins` (chat) or `xlplugins` (console) to open up the Plugin Installer.
-    * In here, go to `Dev Tools > Installed Dev Plugins`, and the `SamplePlugin` should be visible. Enable it.
-3. You should now be able to use `/pmycommand` (chat) or `pmycommand` (console)!
-
-Note that you only need to add it to the Dev Plugin Locations once (Step 1); it is preserved afterwards. You can disable, enable, or load your plugin on startup through the Plugin Installer.
-
-### Reconfiguring for your own uses
-
-Replace all references to `SamplePlugin` in all the files and filenames with your desired name, then start building the plugin of your dreams. You'll figure it out 😁
-
-Dalamud will load the JSON file (by default, `SamplePlugin/SamplePlugin.json`) next to your DLL and use it for metadata, including the description for your plugin in the Plugin Installer. Make sure to update this with information relevant to _your_ plugin!
-
-All participation in this repository is governed by our [Code of Conduct](https://dalamud.dev/code-of-conduct). If you used AI tooling at any point, review the [AI Usage Policy](https://dalamud.dev/plugin-publishing/ai-policy) and disclose your level of AI use. Entirely AI-generated submissions will be rejected, and undisclosed AI use may result in a ban.
+- Inventory preview and planning work even before you start a run.
+- Upgrade cutscenes are not used for targeting; if one plays, the plugin waits it out and continues.
+- This is a personal/dev plugin. Automation like this is generally not accepted into the official Dalamud plugin repository.

@@ -1,16 +1,12 @@
-name: Sample PR Builder for SamplePlugin
+name: PR Builder for MateriaTransmuter
 
 on:
   pull_request:
     branches: [ master ]
 
 jobs:
-
   build:
     runs-on: windows-2022
-
-    env:
-      Solution_Name: SamplePlugin
 
     steps:
     - name: Checkout
@@ -32,8 +28,7 @@ jobs:
     - name: Store artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: SamplePlugin
-        path: .\SamplePlugin\bin\x64\Release\SamplePlugin\*
+        name: MateriaTransmuter
+        path: .\MateriaTransmuter\bin\x64\Release\MateriaTransmuter\*
         if-no-files-found: error
         retention-days: 1
-
